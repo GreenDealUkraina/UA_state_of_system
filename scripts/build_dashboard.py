@@ -10,6 +10,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 import argparse
+import csv
+from datetime import datetime
 import shutil
 
 
@@ -179,9 +181,52 @@ def render_header(cfg: Dict[str, Any]) -> str:
     )
 
 
-def render_summary(cfg: Dict[str, Any]) -> str:
+def parse_date(value: str) -> datetime:
+    for fmt in ("%Y-%m-%d", "%d.%m.%Y", "%Y/%m/%d"):
+        try:
+            return datetime.strptime(value, fmt)
+        except ValueError:
+            continue
+    return datetime.min
+
+
+def resolve_csv_path(period_dir: Path, csv_path: str) -> Path:
+    if Path(csv_path).is_absolute():
+        return Path(csv_path)
+    candidate = (period_dir / csv_path).resolve()
+    if candidate.exists():
+        return candidate
+    return (BASE_DIR / csv_path.lstrip("./")).resolve()
+
+
+def render_summary(cfg: Dict[str, Any], period_dir: Path) -> str:
     summary = cfg.get("summary", {})
     heading = summary.get("heading", "")
+    csv_path = summary.get("csv", "")
+    if csv_path:
+        csv_file = resolve_csv_path(period_dir, csv_path)
+        rows = []
+        with csv_file.open(newline="", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                date = (row.get("Date") or "").strip()
+                location = (row.get("Location") or "").strip()
+                findings = (row.get("Key findings (from source)") or "").strip()
+                source = (row.get("Source (publisher)") or "").strip()
+                url = (row.get("URL") or "").strip()
+                rows.append((parse_date(date), date, location, findings, source, url))
+        rows.sort(key=lambda r: r[0], reverse=True)
+        items = []
+        for _, date, location, findings, source, url in rows:
+            label = f"{date} - {location}: {findings}"
+            if url:
+                label += f' <a href="{url}" target="_blank" rel="noopener">[{source}]</a>'
+            else:
+                label += f" [{source}]"
+            items.append(f"<li>{label}</li>")
+        li = "".join(items)
+        return f"<section class=\"summary\"><h2>{heading}</h2><ul>{li}</ul></section>"
+
     bullets = summary.get("bullets", [])
     li = "".join([f"<li>{b}</li>" for b in bullets])
     sources = summary.get("sources", [])
@@ -254,7 +299,7 @@ def main() -> None:
     html = (
         template.replace("{{TITLE}}", cfg.get("title", "Dashboard"))
         .replace("{{HEADER}}", render_header(cfg))
-        .replace("{{SUMMARY}}", render_summary(cfg))
+        .replace("{{SUMMARY}}", render_summary(cfg, period_dir))
         .replace("{{TIP}}", render_tip(cfg))
         .replace("{{PANELS}}", render_panels(cfg))
     )

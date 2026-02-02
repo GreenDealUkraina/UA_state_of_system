@@ -30,10 +30,10 @@ OUT_HTML_NAME = "ua_outage_map.html"
 
 # (attribute_name, label)
 MAP_ATTRS = [
-    ("Outage_w1", "27 Oct - 2 Nov 2025"),
-    ("outage_w2", "10 - 16 Nov 2025"),
-    ("outage_w3", "2 - 8 Jan 2026"),
-    ("O_13_jan", "13 Jan 2026"),
+    ("Outage_w1", "Late October 2025"),
+    ("outage_w2", "Early November 2025"),
+    ("outage_w3", "First week of January 2026"),
+    ("O_13_jan", "13 January 2026"),
 ]
 
 BIN_EDGES = [0.0, 0.1, 2.0, 4.0, 8.0, 12.0]

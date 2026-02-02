@@ -1,5 +1,5 @@
 title: Ukraine: State of the Energy System | January 2026
-description: Updated on 26.01.2026
+description: Updated on 29.01.2026
 authors:
   - Prepared by GDU Data and Modelling Team - Robert Carr & Frank Meissner
 contributors:
@@ -10,24 +10,7 @@ logos:
   - logos/GDU_logo_nowhitespace.png
 summary:
   heading: Summary of recent news
-  bullets:
-    - Jan 13 - Attacks took place on 15 critical infrastructure facilities across the country, including thermal power plants and CHPs.
-    - Despite this, 99% of residential buildings and 98.5% of social infrastructure have functioning heat.
-    - Indirect attacks on heat supply - strikes on power grid/substations trigger heat outages even when boiler houses remain functional
-    - Kyiv remains a hotspot for attacks that interrupt heat provision, though the number of buildings without functioning central heating has decreased from 6,000 on 9/10 Jan to 1000 on 11 Jan. Reports from the 14 Jan suggest ~500 buildings remain without central heat. 
-    - Authorities and humanitarian actors have relied on "Points of Invincibility" (resilient heated tents/shelters) for warming, charging devices, and basic services during outages.
-    - Restoration work is constantly on-going and support for emergency workers has been expanded.
-    - Water outages reported in Kyiv as of 14 Jan.
-
-  sources:
-    - label: Associated Press
-      url: https://apnews.com/article/aa7d5c2e54619fefabab72165444f8e3
-    - label: BBC
-      url: https://www.bbc.com/news/articles/cgm4w1g3dggo 
-    - label: Interfax
-      url: https://en.interfax.com.ua/news/economic/1136081.html?utm_source=chatgpt.com
-    - label: Reuters
-      url: https://www.reuters.com/world/ukraine-toils-restore-power-heat-zelenskiy-warns-new-attack-2026-01-12/
+  csv: news/Jan_2026/ukraine_energy_press_summary_2026-01-15_to_2026-01-27_20entries.csv
 tip: Tip: You can hover, pan, zoom, and select within each figure to explore specific time periods and regions. You can also click legend items to show/hide them. 
   
   
@@ -64,7 +47,7 @@ panels:
       - This marks an improvement compared to the same period in early 2025, suggesting that repairs to domestic production facilities have been largely successful.
       - Despite online rumours that the recent Oreshnik missile attack targeted gas storage, no damage was reported.
   - id: outages
-    title: Scheduled outages (ADM1)
+    title: Scheduled outages (Oblast level)
     plot: plots/ua_outage_map.html
     source: Various DSO websites
     bullets:
