@@ -55,6 +55,10 @@ def _parse_block(lines: List[str], start: int, indent: int) -> Tuple[Any, int]:
                 val, i = _parse_block(lines, i + 1, indent + 2)
                 obj.append(val)
                 continue
+            if item.startswith(("'", '"')):
+                obj.append(_parse_scalar(item))
+                i += 1
+                continue
             if ":" in item:
                 key, rest = item.split(":", 1)
                 rest = rest.strip()
@@ -155,15 +159,54 @@ def parse_yaml(path: Path) -> Dict[str, Any]:
     return data
 
 
+def _format_people(items: List[Any]) -> str:
+    parts: List[str] = []
+    for item in items:
+        if isinstance(item, dict):
+            name = (item.get("name") or "").strip()
+            url = (item.get("url") or "").strip()
+            if url:
+                parts.append(f'<a href="{url}" target="_blank" rel="noopener">{name}</a>')
+            else:
+                parts.append(name)
+        else:
+            parts.append(str(item))
+    return ", ".join([p for p in parts if p])
+
+
 def render_header(cfg: Dict[str, Any]) -> str:
     logos = cfg.get("logos", [])
-    logos_html = "".join([f'<img src="{p}" alt="logo">' for p in logos])
+    logo_links = cfg.get("logo_links", [])
+    logos_html_parts = []
+    for i, p in enumerate(logos):
+        link = logo_links[i] if i < len(logo_links) else ""
+        img = f'<img src="{p}" alt="logo">'
+        if link:
+            logos_html_parts.append(f'<a href="{link}" target="_blank" rel="noopener">{img}</a>')
+        else:
+            logos_html_parts.append(img)
+    logos_html = "".join(logos_html_parts)
     authors = cfg.get("authors", [])
-    author_text = ", ".join(authors)
+    author_text = _format_people(authors)
+    author_prefix = cfg.get("authors_prefix", "")
+    if author_text and author_prefix:
+        author_text = f"{author_prefix}{author_text}"
     contributors = cfg.get("contributors", [])
-    contributor_text = ", ".join(contributors)
+    contributor_text = _format_people(contributors)
     contact = cfg.get("contact", "")
     contact_html = f"<div class=\"authors\">Contact: {contact}</div>" if contact else ""
+    other_dashboard_text = cfg.get("other_dashboard_text", "")
+    other_dashboard_url = cfg.get("other_dashboard_url", "")
+    other_dashboard_html = ""
+    if other_dashboard_text and other_dashboard_url:
+        other_dashboard_html = (
+            "<div class=\"authors other-dashboard\">"
+            "<strong>"
+            + other_dashboard_text.replace(
+                "[link]", f'<a href="{other_dashboard_url}" target="_blank" rel="noopener">'
+            ).replace("[/link]", "</a>")
+            + "</strong></div>"
+        )
     title = cfg.get("title", "")
     title_html = title.replace(" | ", "<br>")
     contributor_html = f"<div class=\"authors\">Contributors: {contributor_text}</div>" if contributor_text else ""
@@ -175,6 +218,7 @@ def render_header(cfg: Dict[str, Any]) -> str:
         f"<div class=\"authors\">{author_text}</div>"
         f"{contributor_html}"
         f"{contact_html}"
+        f"{other_dashboard_html}"
         "</div>"
         f"<div class=\"logo-bar\">{logos_html}</div>"
         "</header>"
@@ -211,7 +255,7 @@ def render_summary(cfg: Dict[str, Any], period_dir: Path) -> str:
             for row in reader:
                 date = (row.get("Date") or "").strip()
                 location = (row.get("Location") or "").strip()
-                findings = (row.get("Key findings (from source)") or "").strip()
+                findings = (row.get("Impact (reported)") or "").strip()
                 source = (row.get("Source (publisher)") or "").strip()
                 url = (row.get("URL") or "").strip()
                 rows.append((parse_date(date), date, location, findings, source, url))
@@ -248,7 +292,26 @@ def render_tip(cfg: Dict[str, Any]) -> str:
     tip = cfg.get("tip", "")
     if not tip:
         return ""
+    if tip.strip().lower().startswith("tip:"):
+        tip = "💡 " + tip.strip()
     return f"<section class=\"tip\">{tip}</section>"
+
+
+def render_about(cfg: Dict[str, Any]) -> str:
+    about = cfg.get("about", "")
+    if not about:
+        return ""
+    return f"<section class=\"about\"><h2>About the project</h2><p>{about}</p></section>"
+
+
+def render_citation(cfg: Dict[str, Any]) -> str:
+    citation = cfg.get("citation", "")
+    license_text = cfg.get("license", "")
+    if not citation and not license_text:
+        return ""
+    citation_html = f"<div><strong>Citation:</strong> {citation}</div>" if citation else ""
+    license_html = f"<div><strong>License:</strong> {license_text}</div>" if license_text else ""
+    return f"<section class=\"summary\"><div class=\"meta\">{citation_html}{license_html}</div></section>"
 
 
 def render_panels(cfg: Dict[str, Any]) -> str:
@@ -302,6 +365,8 @@ def main() -> None:
         .replace("{{SUMMARY}}", render_summary(cfg, period_dir))
         .replace("{{TIP}}", render_tip(cfg))
         .replace("{{PANELS}}", render_panels(cfg))
+        .replace("{{ABOUT}}", render_about(cfg))
+        .replace("{{CITATION}}", render_citation(cfg))
     )
     site_dir.mkdir(parents=True, exist_ok=True)
     (site_dir / "plots").mkdir(parents=True, exist_ok=True)

@@ -31,7 +31,7 @@
       display: grid;
       grid-template-columns: 1.4fr 0.6fr;
       gap: 18px;
-      align-items: center;
+      align-items: start;
       border-bottom: 2px solid var(--stroke);
       padding-bottom: 22px;
     }
@@ -50,11 +50,15 @@
       font-size: 14px;
       color: var(--muted);
     }
+    .other-dashboard {
+      margin-top: 8px;
+    }
     .logo-bar {
       display: flex;
       justify-content: flex-end;
       gap: 16px;
       flex-wrap: wrap;
+      align-self: start;
     }
     .logo-bar img {
       height: 64px;
@@ -63,9 +67,9 @@
     }
     .summary {
       margin: 28px 0;
-      background: #fff8ea;
-      border: 1px solid #f1dcc0;
-      border-left: 6px solid #e6a66d;
+      background: #f6f3ee;
+      border: 1px solid #ded7cb;
+      border-left: 6px solid var(--accent);
       padding: 18px 22px;
       box-shadow: var(--shadow);
       max-height: 260px;
@@ -74,8 +78,8 @@
     }
     .tip {
       margin: 18px 0 26px;
-      background: #e9f3f5;
-      border: 1px solid #c8e0e5;
+      background: #f6f3ee;
+      border: 1px solid #ded7cb;
       border-left: 6px solid var(--accent);
       padding: 14px 18px;
       color: var(--muted);
@@ -120,10 +124,41 @@
     .summary a:hover {
       text-decoration: underline;
     }
+    .meta {
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px dashed #e2ddd3;
+      padding-top: 8px;
+      display: grid;
+      gap: 4px;
+    }
+    .meta strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
     .grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 22px;
+    }
+    .about {
+      margin: 28px 0 0;
+      background: #f6f3ee;
+      border: 1px solid #ded7cb;
+      border-left: 6px solid var(--accent);
+      padding: 18px 22px;
+      box-shadow: var(--shadow);
+    }
+    .about h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .about p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
     }
     .panel {
       background: var(--card);
@@ -250,6 +285,8 @@
     <section class="grid">
       {{PANELS}}
     </section>
+    {{ABOUT}}
+    {{CITATION}}
   </div>
   <div class="modal" id="modal">
     <div class="modal-content">

@@ -1,17 +1,34 @@
-title: Ukraine: State of the Energy System | January 2026
+title: Ukraine: State of the Energy System | Jan/Feb 2026
 description: Updated on 04.02.2026
+authors_prefix: Prepared by GDU Data and Modelling Team - 
 authors:
-  - Prepared by GDU Data and Modelling Team - Robert Carr & Frank Meissner
+  - name: Robert Carr
+    url: https://www.linkedin.com/in/robert-carr-b71826183/
+  - name: Dr. Frank Meissner
+    url: https://www.linkedin.com/in/frank-mei%C3%9Fner-317991211/
 contributors:
-  - Rouven Stubbe, Vladyslav Mikhynych, Taisiia Kalynych
-contact: robert.carr@helmholtz-berlin.de
+  - name: Rouven Stubbe
+    url: https://www.linkedin.com/in/rouven-stubbe-41407a130/
+  - name: Vladyslav Mikhynych
+    url: https://www.linkedin.com/in/vlad-mikhnych/
+  - name: Taisiia Kalynych
+    url: https://www.linkedin.com/in/taisiia-kalynych-58913b24b/
+contact: robert.carr [at] helmholtz-berlin.de
+other_dashboard_text: Check out our other dashboard that focuses specfically on [link]daily power outages in Ukraine[/link].
+other_dashboard_url: https://greendealukraina.github.io/Power_Outages_Ukraine/
 logos:
   - logos/HZB_logo-a4-rgb transparent.png
   - logos/GDU_logo_nowhitespace.png
+logo_links:
+  - "https://www.helmholtz-berlin.de/"
+  - "https://greendealukraina.org/"
 summary:
   heading: Summary of recent news
-  csv: news/Jan_2026/ukraine_energy_press_summary_2026-01-15_to_2026-01-27_20entries.csv
+  csv: news/Jan_2026/ua_energy_infrastructure_summary_2026-01-20_to_2026-02-05_20_entries.csv
 tip: Tip: You can hover, pan, zoom, and select within each figure to explore specific time periods and regions. You can also click legend items to show/hide them. 
+about: Green Deal Ukraïna (GDU) is a German, Ukrainian, and Polish project that aims to support Ukraine in making future-proof energy and climate policy decisions. It is funded by the German Ministry of Research, Technology, and Space (BMFTR). The three main work streams are data & modelling, policy advice, and capacity building. In addition, GDU contributes to the development of the newly established Kyiv Energy and Climate Lab in Ukraine.
+citation: "R., Carr & F., Meissner. 2026. Ukraine: State of the Energy System Jan/Feb 2026. Green Deal Ukraïna project @ Helmholtz-Zentrum für Energie und Materialien."
+license: "Free to use with attribution (CC BY 4.0)."
   
   
 panels:
@@ -49,11 +66,9 @@ panels:
       - This marks an improvement compared to the same period in early 2025, suggesting that repairs to domestic production facilities have been largely successful.
       - Despite online rumours that the recent Oreshnik missile attack targeted gas storage, no damage was reported.
   - id: outages
-    title: Scheduled outages (Oblast level)
-    plot: plots/ua_outage_map.html
-    source: Various DSO websites
+    title: Day-ahead market electricity prices (DAM)
+    plot: plots/ua_dam_prices.html
+    source: OREE; National Bank of Ukraine (EUR/UAH)
     bullets:
-      - Here we provide the average hours of scheduled outages for several Oblasts over differnt time periods. 
-      - Repeated attacks on energy facilities between November 2025 and January 2026 have led to widespread, scheduled outages.
-      - Massive attacks took place on 7/8 November 2025, and again on the 6/7 January 2026. 
-      - We show the week before the November attack and the week after. For January, we show the first week of the year, and then an individal day following the Jan 6/7 attacks. 
+      - Hourly day-ahead market prices in EUR/MWh based on OREE DAM data.
+      - Prices reflect market conditions under winter demand and ongoing infrastructure disruptions.
