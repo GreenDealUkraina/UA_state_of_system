@@ -301,7 +301,7 @@ def render_about(cfg: Dict[str, Any]) -> str:
     about = cfg.get("about", "")
     if not about:
         return ""
-    return f"<section class=\"about\"><h2>About the project</h2><p>{about}</p></section>"
+    return f"<section class=\"about\"><h2>About the project 🇺🇦 🇩🇪 🇵🇱</h2><p>{about}</p></section>"
 
 
 def render_citation(cfg: Dict[str, Any]) -> str:

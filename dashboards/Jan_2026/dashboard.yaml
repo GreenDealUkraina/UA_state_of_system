@@ -1,5 +1,5 @@
 title: Ukraine: State of the Energy System | Jan/Feb 2026
-description: Updated on 04.02.2026
+description: Updated on 10.02.2026
 authors_prefix: Prepared by GDU Data and Modelling Team - 
 authors:
   - name: Robert Carr
@@ -35,7 +35,7 @@ panels:
   - id: crossborder
     title: Cross-border electricity trade (commerical flows)
     plot: plots/ua_crossborder_monthly.html
-    note: Data between March and December 2022 is not available. February 2026 stops at 04.02. 
+    note: Data between March and December 2022 is not available. February 2026 stops at 09.02. 
     source: Energy Charts, ENTSO-E Transparency Platform
     bullets:
       - Prior to February 2022, Ukraine was a net electricity exporter, integrated within the IPS/UPS system.
